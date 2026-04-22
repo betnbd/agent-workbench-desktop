@@ -1,7 +1,5 @@
 # Agent Workbench
 
-![Agent Workbench](screenshot.png)
-
 Agent Workbench is a Tauri app for managing local workspaces and conversation threads on Ubuntu Linux. It provides a sidebar to manage projects, a home screen for quick actions, and a conversation view backed by the Codex app-server protocol.
 
 This build currently targets Wayland-first Linux desktops, with X11 as a compatibility fallback through the normal GTK/WebKit stack.
