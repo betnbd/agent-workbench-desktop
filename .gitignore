@@ -10,3 +10,5 @@ target/
 .env
 .env.local
 .env.*.local
+TASKS.local.md
+PROJECT.local.md
