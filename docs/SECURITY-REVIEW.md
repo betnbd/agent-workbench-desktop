@@ -4,7 +4,7 @@ Date: 2026-04-24
 
 ## Scope
 
-Reviewed the local desktop security surface for AI-account use:
+Reviewed the local desktop security surface for account-backed session use:
 
 - Tauri capability permissions and CSP
 - app-server process spawning and approval policy
@@ -22,7 +22,7 @@ Reviewed the local desktop security surface for AI-account use:
 - Added visible full-access warnings in the composer and workspace defaults panel.
 - Restricted changed-file opening to paths inside the active workspace.
 - Required selected workspaces to resolve to directories.
-- Required custom Codex binary paths to be absolute, regular files, executable on Unix, and not world-writable.
+- Required custom binary paths to be absolute, regular files, executable on Unix, and not world-writable.
 - Wrote `workspaces.json` with user-only permissions on Unix.
 - Narrowed Tauri opener/dialog permissions to the commands the UI actually uses.
 - Replaced broad `core:default` with the specific core event, menu, and resource permissions used by the frontend.
@@ -43,10 +43,10 @@ Reviewed the local desktop security surface for AI-account use:
 
 ## Residual Risks
 
-- The app still intentionally delegates real work to `codex app-server`; account-level safety ultimately depends on Codex authentication, model/tool behavior, and user approval decisions.
+- The app still intentionally delegates real work to the configured app-server process; account-level safety ultimately depends on authentication, model/tool behavior, and user approval decisions.
 - Rust dependency advisory warnings remain in the transitive Tauri/GTK stack. They are not direct application code, but they should be monitored during Tauri/wry upgrades.
 - Debug diagnostics are redacted on a best-effort basis, not a formal secret scanner. Users should still avoid sharing full debug logs from sensitive workspaces.
-- The custom Codex binary option is powerful by design. It is now validated for executable permissions, but users should only point it at trusted binaries.
+- The custom binary option is powerful by design. It is now validated for executable permissions, but users should only point it at trusted binaries.
 - Release artifacts have checksums but are not cryptographically signed yet. Signing requires choosing and protecting a signing key.
 - Full clean-machine GUI acceptance remains manual, especially prompt send, approvals, review presets, diff opening, checkpoints, and restart persistence.
 

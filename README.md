@@ -1,6 +1,6 @@
 # Agent Workbench
 
-Agent Workbench is a Tauri app for managing local workspaces and conversation threads on Ubuntu Linux. It provides a sidebar to manage projects, a home screen for quick actions, and a conversation view backed by the Codex app-server protocol.
+Agent Workbench is a Tauri app for managing local workspaces and long-running engineering sessions on Ubuntu Linux. It provides a sidebar to manage projects, a home screen for quick actions, and a conversation view backed by an app-server protocol.
 
 This build currently targets Wayland-first Linux desktops, with X11 as a compatibility fallback through the normal GTK/WebKit stack.
 Distribution is Debian-package only for now.
@@ -8,10 +8,10 @@ Distribution is Debian-package only for now.
 ## Features
 
 - Add and persist workspaces using the system folder picker.
-- Spawn one `codex app-server` per workspace and stream events over JSON-RPC.
-- Restore threads per workspace from the Codex rollout history (`thread/list`) and resume on selection.
+- Spawn one app-server process per workspace and stream events over JSON-RPC.
+- Restore threads per workspace from local history (`thread/list`) and resume on selection.
 - Start threads, send messages, show reasoning/tool call items, and handle approvals.
-- Per-workspace defaults and per-thread overrides for model, reasoning effort, access mode, and custom Codex binary path.
+- Per-workspace defaults and per-thread overrides for model, reasoning effort, speed mode, access mode, and custom binary path.
 - Search, rename, pin, and archive threads from the sidebar.
 - Review presets, thread checkpoints, and lightweight keyboard shortcuts for common actions.
 - Inline alerts, disconnect recovery state, and a resizable sidebar for denser workspaces.
@@ -33,10 +33,10 @@ The one remaining release-readiness item is a full clean-Ubuntu acceptance pass 
 
 - Node.js + npm
 - Rust toolchain (stable)
-- Codex installed on your system and available as `codex` in `PATH`
+- A compatible local CLI installed on your system. The current backend defaults to `codex` in `PATH`.
 - Linux desktop libraries required by Tauri/WebKitGTK
 
-If the `codex` binary is not in `PATH`, set a custom absolute binary path per workspace from `Linux Settings`.
+If the default binary is not in `PATH`, set a custom absolute binary path per workspace from `Linux Settings`.
 
 Typical Ubuntu package set:
 
@@ -77,7 +77,7 @@ Write SHA-256 checksums for the generated Debian artifacts:
 npm run release:checksums
 ```
 
-Verify the Codex app-server handshake independently:
+Verify the app-server handshake independently:
 
 ```bash
 npm run smoke:app-server
@@ -100,7 +100,7 @@ src/
   styles/           split CSS by area
   types.ts          shared types
 src-tauri/
-  src/lib.rs        Tauri backend + codex app-server client
+  src/lib.rs        Tauri backend + app-server client
   tauri.conf.json   window configuration
 ```
 
@@ -110,10 +110,10 @@ src-tauri/
 - Threads are restored by filtering `thread/list` results using the workspace `cwd`.
 - Selecting a thread always calls `thread/resume` to refresh messages from disk.
 - CLI sessions appear if their `cwd` matches the workspace path; they are not live-streamed unless resumed.
-- Each workspace launches its own `codex app-server` process with that workspace as the child process working directory.
-- Each workspace can store its own default access mode, speed mode, default model, default reasoning effort, and optional custom Codex binary path.
+- Each workspace launches its own app-server process with that workspace as the child process working directory.
+- Each workspace can store its own default access mode, speed mode, default model, default reasoning effort, and optional custom binary path.
 - Last active workspace and thread restore on relaunch, and per-thread overrides/checkpoints persist in local storage.
-- The app uses `codex app-server` over stdio; see `src-tauri/src/lib.rs`.
+- The current app-server integration uses `codex app-server` over stdio; see `src-tauri/src/lib.rs`.
 - Release builds currently produce a `.deb` package only.
 - Release checksum manifests are written next to the `.deb` as `SHA256SUMS`.
 
@@ -125,16 +125,16 @@ src-tauri/
 ## Troubleshooting
 
 - `workspace not connected`
-  Reconnect the workspace from the sidebar or `Linux Settings`. The app now marks workspaces disconnected when the underlying `codex app-server` session exits.
+  Reconnect the workspace from the sidebar or `Linux Settings`. The app now marks workspaces disconnected when the underlying app-server session exits.
 
-- Custom Codex binary fails to save
-  Custom binaries must be absolute file paths. Leave the field blank to use `codex` from `PATH`.
+- Custom binary fails to save
+  Custom binaries must be absolute file paths. Leave the field blank to use the default binary from `PATH`.
 
-- Custom Codex binary saves but reconnect fails
-  Confirm the selected file is executable and actually launches Codex. The workspace settings panel will show validation failures inline, and the main UI will show reconnect errors.
+- Custom binary saves but reconnect fails
+  Confirm the selected file is executable and actually launches the expected app-server command. The workspace settings panel will show validation failures inline, and the main UI will show reconnect errors.
 
 - Threads do not appear after adding a workspace
-  Confirm the workspace connected successfully and that Codex has rollout history in that folder. Use the workspace refresh action to reload `thread/list`.
+  Confirm the workspace connected successfully and that local thread history exists in that folder. Use the workspace refresh action to reload `thread/list`.
 
 - Approval requests are missing
   Approval prompts only appear when the app-server emits a request. If a turn stalls, open the debug panel and inspect the latest stderr/error events.

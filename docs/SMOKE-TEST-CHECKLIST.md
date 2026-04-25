@@ -4,7 +4,7 @@ Use this checklist before calling the prototype ready for a review build.
 
 ## Preconditions
 
-- `codex` is installed and available in `PATH`, or you have a known-good absolute custom binary path.
+- A compatible local CLI is installed and available in `PATH`, or you have a known-good absolute custom binary path.
 - Rust, Node.js, and the required Tauri/WebKitGTK Linux libraries are installed.
 - You can launch the app with `npm run tauri dev` or install a built `.deb`.
 
@@ -14,12 +14,12 @@ Use this checklist before calling the prototype ready for a review build.
 - [ ] Add a workspace from the system folder picker.
 - [ ] Confirm the workspace appears in the sidebar and connects automatically.
 - [ ] Open `Linux Settings` and verify the default model, thinking, and access controls render.
-- [ ] Save a valid custom Codex binary path and confirm the workspace reconnects successfully.
-- [ ] Save an invalid custom Codex binary path and confirm the settings panel shows a clear validation error.
+- [ ] Save a valid custom binary path and confirm the workspace reconnects successfully.
+- [ ] Save an invalid custom binary path and confirm the settings panel shows a clear validation error.
 
 ## Thread Flow
 
-- [ ] Create a new agent thread from the sidebar.
+- [ ] Create a new session thread from the sidebar.
 - [ ] Send a normal prompt and confirm user + assistant messages render.
 - [ ] Confirm reasoning/tool items stream into the conversation as the turn runs.
 - [ ] Stop a running turn and confirm the UI exits the processing state cleanly.
