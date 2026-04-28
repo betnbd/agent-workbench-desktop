@@ -4,7 +4,7 @@ Agent Workbench is a Linux desktop app for managing local Codex workspaces and l
 
 This project currently targets Ubuntu and other Debian-based Linux desktops. Release builds are packaged as `.deb` files.
 
-![Agent Workbench home screen](docs/assets/agent-workbench-screenshot.png)
+![Agent Workbench home screen](docs/assets/agent-workbench-readme-screenshot.png)
 
 ## What It Does
 
