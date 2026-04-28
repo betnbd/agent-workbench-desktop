@@ -145,3 +145,7 @@ Verify the target machine has the required WebKitGTK and GTK dependencies listed
 
 - [Security review](docs/SECURITY-REVIEW.md)
 - [Smoke test checklist](docs/SMOKE-TEST-CHECKLIST.md)
+
+## License
+
+MIT. See [LICENSE](LICENSE).
